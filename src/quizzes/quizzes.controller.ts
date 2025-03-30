@@ -1,5 +1,6 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, ParseIntPipe, Delete } from '@nestjs/common';
 import { QuizzesService } from './quizzes.service';
+import { CreateQuizDto } from './entities/create-quiz.dto';
 
 @Controller('quizzes')
 export class QuizzesController {
@@ -10,12 +11,17 @@ export class QuizzesController {
     }
   
     @Get(':id')
-    findOne(@Param('id') id: string) {
-      return this.quizzesService.findOne(+id);
+    findOne(@Param('id', ParseIntPipe) id: number) {
+      return this.quizzesService.findOne(id);
     }
   
     @Post()
-    create(@Body() createQuizDto: any) {
-      return this.quizzesService.create(createQuizDto);
+    create(@Body() dto: CreateQuizDto) {
+      return this.quizzesService.create(dto);
+    }
+  
+    @Delete(':id')
+    remove(@Param('id', ParseIntPipe) id: number) {
+      return this.quizzesService.remove(id);
     }
 }

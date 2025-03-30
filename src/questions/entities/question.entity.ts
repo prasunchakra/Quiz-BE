@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import { Quiz } from '../../quizzes/entities/quiz.entity';
-import { Answer } from '../../answers/entities/answer.entity';
+import { Answer } from './answer.entity';
+import { QuestionType } from '../dto/question-type.enum';
 
 @Entity()
 export class Question {
@@ -10,9 +11,16 @@ export class Question {
   @Column()
   questionText: string;
 
-  @ManyToOne(() => Quiz, (quiz) => quiz.questions)
-  quiz: Quiz;
+  @Column({
+    type: 'enum',
+    enum: QuestionType,
+  })
+  questionType: QuestionType;
 
-  @OneToMany(() => Answer, (answer) => answer.question, { cascade: true })
+  @ManyToMany(() => Quiz, (quiz) => quiz.questions)
+  quizzes: Quiz[];
+
+  @ManyToMany(() => Answer, { cascade: true })
+  @JoinTable()
   answers: Answer[];
 }
