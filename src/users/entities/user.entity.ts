@@ -1,23 +1,30 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Unique,
+} from 'typeorm';
 import { IsEnum } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 export enum UserRole {
-    ADMIN = 'admin',
-    USER = 'user',
-    SUPER_ADMIN = 'super-admin',
-    VIEWER = 'viewer',
-    ROLE_X = 'role-x'
-  }
+  ADMIN = 'admin',
+  USER = 'user',
+  SUPER_ADMIN = 'super-admin',
+  VIEWER = 'viewer',
+  ROLE_X = 'role-x',
+}
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
+  @Column({ nullable: false, unique: true })
   username: string;
 
-  @Column()
+  @Column({ nullable: false })
   password: string;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
@@ -26,4 +33,13 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({ nullable: true, unique: true })
+  email: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

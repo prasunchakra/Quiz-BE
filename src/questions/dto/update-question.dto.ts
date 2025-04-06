@@ -2,7 +2,6 @@ import { Type } from "class-transformer";
 import { 
   IsArray, 
   IsEnum, 
-  IsNotEmpty, 
   IsNumber, 
   IsOptional, 
   IsString, 
@@ -13,14 +12,14 @@ import {
 import { QuestionType } from "../enums/question-type.enum";
 import { Status } from "../../common/enum/status.enum";
 import { Difficulty } from "../../common/enum/difficulty.enum";
-export class CreateQuestionDto {
+export class UpdateQuestionDto {
+  @IsOptional()
   @IsEnum(QuestionType)
-  @IsNotEmpty()
-  type: QuestionType;
+  type?: QuestionType;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  text: string;
+  text?: string;
 
   @IsOptional()
   @IsArray()
@@ -28,17 +27,17 @@ export class CreateQuestionDto {
   @ArrayMinSize(2)
   options?: string[];
 
-  @IsNotEmpty()
-  correctAnswer: string;
+  @IsOptional()
+  correctAnswer?: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  section: string;
+  section?: string;
 
+  @IsOptional()
   @IsNumber()
-  @IsNotEmpty()
   @Min(0)
-  marks: number;
+  marks?: number;
 
   @IsOptional()
   @Type(() => Object)

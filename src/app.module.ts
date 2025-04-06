@@ -5,12 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { Quiz } from './quizzes/entities/quiz.entity';
 import { Question } from './questions/entities/question.entity';
-import { Answer } from './questions/entities/answer.entity';
 import { QuizzesModule } from './quizzes/quizzes.module';
 import { QuestionsModule } from './questions/questions.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-
+import { SubmissionModule } from './submission/submission.module';
+import { Submission } from './submission/entities/submission.entity';
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: 'mysql',
@@ -18,10 +18,10 @@ import { AuthModule } from './auth/auth.module';
     port: 3306,
     username: 'root',
     password: '',
-    database: 'quizB',
-    entities: [User, Quiz, Question, Answer],
+    database: 'quizC',
+    entities: [ Quiz, Question, User, Submission],
     synchronize: true, 
-  }), QuizzesModule, QuestionsModule, UsersModule, AuthModule,],
+  }), QuizzesModule, QuestionsModule, UsersModule, AuthModule, SubmissionModule,],
   controllers: [AppController],
   providers: [AppService],
 })
